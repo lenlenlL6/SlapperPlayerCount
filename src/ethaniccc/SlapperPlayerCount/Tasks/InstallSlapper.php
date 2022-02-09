@@ -11,6 +11,10 @@ class InstallSlapper extends AsyncTask{
     private $status;
 
     public function __construct(Main $main){
+        $completeData = [];
+        $queryData = PMQuery::query($data["ip"], $data["port"]);
+                $onlinePlayers = $queryData["Players"];
+                $maxOnlinePlayers = $queryData["MaxPlayers"];
         $this->storeLocal($main);
     }
 
