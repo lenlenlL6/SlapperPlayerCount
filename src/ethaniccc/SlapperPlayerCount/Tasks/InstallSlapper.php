@@ -15,7 +15,8 @@ class InstallSlapper extends AsyncTask{
         $queryData = PMQuery::query($data["ip"], $data["port"]);
                 $onlinePlayers = $queryData["Players"];
                 $maxOnlinePlayers = $queryData["MaxPlayers"];
-        $this->storeLocal($main);
+          $completeData[] = ["entity" => (array) $data["entity"], "online" => true, "data" => ["online" => $onlinePlayers, "maxOnline" => $maxOnlinePlayers]];
+        $this->storeLocal($main, $completeData);
     }
 
     public function onRun() : void{
