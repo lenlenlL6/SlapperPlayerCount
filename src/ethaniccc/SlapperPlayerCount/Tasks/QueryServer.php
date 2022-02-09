@@ -33,7 +33,7 @@ class QueryServer extends AsyncTask{
         $this->setResult($completeData);
     }
 
-    public function onCompletion(Server $server){
+    public function onCompletion(Server $server) : void{
         foreach($this->getResult() as $key => $data){
             $level = $server->getWorldManager()->getWorldByName($data["entity"]["level"]);
             if($level === null){
