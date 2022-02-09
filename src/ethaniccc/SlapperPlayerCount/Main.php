@@ -18,7 +18,7 @@ class Main extends PluginBase implements Listener
 
     private $worldPlayerCount = null;
 
-    public function onEnable()
+    public function onEnable() : void
     {
         /* :eyes: */
         if ($this->getConfig()->get("version") !== $this->getDescription()->getVersion()) {
@@ -60,10 +60,10 @@ class Main extends PluginBase implements Listener
 
     public function updateSlapper(): void{
         $data = [];
-        foreach ($this->getServer()->getLevels() as $level) {
+        foreach ($this->getServer()->getWorldManager()->getWorlds()() as $level) {
             foreach ($level->getEntities() as $entity) {
-                if (!empty($entity->namedtag->getString("server", ""))) {
-                    $server = explode(":", $entity->namedtag->getString("server", ""));
+                if (!empty($entity->saveNBT()->getString("server", ""))) {
+                    $server = explode(":", $entity->saveNBT()->getString("server", ""));
                     if (isset($server[0])) {
                         if ($server[0] === "server") {
                             if (empty($server[1])) $ip = "not_a_valid_ip";
@@ -81,7 +81,7 @@ class Main extends PluginBase implements Listener
                             }
                         } elseif ($server[0] === "world" && $this->worldPlayerCount === null) {
                             if (empty($server[1])) $world = "this_is_an_invalid_world";
-                            else $world = $this->getServer()->getLevelByName($server[1]);
+                            else $world = $this->getServer()->getWorldManager()->getWorldByName($server[1]);
                             if ($world === null) $execute = false;
                             else $execute = true;
                             if ($execute) {
@@ -118,12 +118,12 @@ class Main extends PluginBase implements Listener
             and preg_match("/[^\.]{1,63}(\.[^\.]{1,63})*/", $domain_name)); //length of each label
     }
 
-    public function onDisable(){
-        foreach ($this->getServer()->getLevels() as $level) {
+    public function onDisable() : void{
+        foreach ($this->getServer()->getWorldManager()->getWorlds() as $level) {
             foreach ($level->getEntities() as $entity) {
-                if (!empty($entity->namedtag->getString("server", ""))) {
+                if (!empty($entity->saveNBT()->getString("server", ""))) {
                     $lines = explode("\n", $entity->getNameTag());
-                    $lines[1] = $entity->namedtag->getString("server", "");
+                    $lines[1] = $entity->savrNBT()->getString("server", "");
                     $nametag = implode("\n", $lines);
                     $entity->setNameTag($nametag);
                 }
@@ -134,14 +134,14 @@ class Main extends PluginBase implements Listener
     public function onSlapperCreate(SlapperCreationEvent $ev): void{
         $entity = $ev->getEntity();
         $lines = explode("\n", $entity->getNameTag());
-        if (isset($lines[1])) $entity->namedtag->setString("server", $lines[1]);
+        if (isset($lines[1])) $entity->saveNBT()->setString("server", $lines[1]);
         $this->updateSlapper();
     }
 
     public function onSlapperDelete(SlapperDeletionEvent $ev): void{
         $entity = $ev->getEntity();
-        if (!empty($entity->namedtag->getString("server", ""))) {
-            $entity->namedtag->removeTag("server");
+        if (!empty($entity->saveNBT()->getString("server", ""))) {
+            $entity->saveNBT()-->removeTag("server");
         }
     }
 
