@@ -14,7 +14,7 @@ class InstallSlapper extends AsyncTask{
         $this->storeLocal($main);
     }
 
-    public function onRun(){
+    public function onRun() : void{
         /*
         $arrContextOptions = array(
             "ssl "=> array(
