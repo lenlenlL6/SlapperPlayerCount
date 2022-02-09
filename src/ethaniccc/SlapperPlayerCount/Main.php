@@ -60,7 +60,7 @@ class Main extends PluginBase implements Listener
 
     public function updateSlapper(): void{
         $data = [];
-        foreach ($this->getServer()->getWorldManager()->getWorlds()() as $level) {
+        foreach ($this->getServer()->getWorldManager()->getWorlds() as $level) {
             foreach ($level->getEntities() as $entity) {
                 if (!empty($entity->saveNBT()->getString("server", ""))) {
                     $server = explode(":", $entity->saveNBT()->getString("server", ""));
