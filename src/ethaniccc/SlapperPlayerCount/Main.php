@@ -141,7 +141,7 @@ class Main extends PluginBase implements Listener
     public function onSlapperDelete(SlapperDeletionEvent $ev): void{
         $entity = $ev->getEntity();
         if (!empty($entity->saveNBT()->getString("server", ""))) {
-            $entity->saveNBT()-->removeTag("server");
+            $entity->saveNBT()->removeTag("server");
         }
     }
 
