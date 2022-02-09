@@ -123,7 +123,7 @@ class Main extends PluginBase implements Listener
             foreach ($level->getEntities() as $entity) {
                 if (!empty($entity->saveNBT()->getString("server", ""))) {
                     $lines = explode("\n", $entity->getNameTag());
-                    $lines[1] = $entity->savrNBT()->getString("server", "");
+                    $lines[1] = $entity->saveNBT()->getString("server", "");
                     $nametag = implode("\n", $lines);
                     $entity->setNameTag($nametag);
                 }
