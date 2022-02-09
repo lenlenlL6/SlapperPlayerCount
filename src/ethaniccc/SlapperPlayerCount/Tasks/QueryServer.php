@@ -18,7 +18,7 @@ class QueryServer extends AsyncTask{
         $this->offlineMsg = $offlineMsg;
     }
 
-    public function onRun(){
+    public function onRun() : void{
         $completeData = [];
         foreach($this->data as $data){
             try{
@@ -35,7 +35,7 @@ class QueryServer extends AsyncTask{
 
     public function onCompletion(Server $server){
         foreach($this->getResult() as $key => $data){
-            $level = $server->getLevelByName($data["entity"]["level"]);
+            $level = $server->getWorldManager()->getWorldByName($data["entity"]["level"]);
             if($level === null){
                 $server->getLogger()->debug("Unexpected null level ($key)");
             } else {
